@@ -12,10 +12,13 @@ export async function createProducts() {
     brands.forEach((brand) => {
         for (let i = 0; i < 6; i++) {
             const type = randomSelect(types);
+            const base = `${type.name}+${brand.name}+${data.length}`
             data.push({
+                title : `Name for ${base}`,
+                description : `Description for ${base}`,
                 type : type._id,
                 brand : brand._id,
-                image_url : `https://dummyjson.com/image/400x200/008080/ffffff?text=${type.name}+${brand.name}+${data.length}`
+                image_url : `https://dummyjson.com/image/400x200/008080/ffffff?text=${base}`
             })
         }
     })

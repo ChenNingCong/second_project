@@ -16,10 +16,11 @@ const ProductBrandScheme = new Schema({
 const ProductBrand = mongoose.model('ProductBrand', ProductBrandScheme);
 
 const ProductSchema = new Schema({
+    title : { type: String, required: true},
+    description : { type: String, required: true},
     type : { type: refType, ref: 'ProductType' },
     brand : { type: refType, ref: 'ProductBrand' },
     image_url: { type: String, required: true, unique: true },
-
 });
 
 const Product = mongoose.model('Product', ProductSchema);

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Gallery</title>
+    <link rel="stylesheet" href="css/index.css">
+
+</head>
+
+<body>
+    <header style="padding: 1rem; border-bottom: 1px solid #ddd;">
+        <h1>Storefront</h1>
+    </header>
+
+    <main>
+        <aside class="filter-panel">
+            <h3>Filters</h3>
+            <template id="filter-form-template">
+                <div>
+                    <h4></h4>
+                </div>
+            </template>
+            <template id="filter-form-template-option">
+                <label><input type="checkbox" name="brand" value="brand2"></label>
+            </template>
+            <form id="filter-form">
+                <button type="button" id="apply-filters">Filter</button>
+            </form>
+        </aside>
+
+        <section class="gallery-container">
+            <div id="no-products" class="hidden">
+                <p>No products found.</p>
+            </div>
+            <template id="product-grid-item-template">
+                <a>
+                    <article class="product-card">
+                        <img src="https://via.placeholder.com/150" alt="Product">
+                        <h4>Product Title</h4>
+                        <button>Favorite</button>
+                    </article>
+                </a>
+            </template>
+            <nav class="pagination">
+                <button id="prev-btn" disabled>Previous</button>
+                <span id="page-indicator">Page 1</span>
+                <span>/</span>
+                <span id="total-page-indicator">Total Page 1</span>
+                <button id="next-btn" disabled>Next</button>
+            </nav>
+            <div id="product-grid" class="product-grid">
+
+            </div>
+        </section>
+
+        <aside class="favorites-sidebar">
+            <h3>My Favorites</h3>
+            <ul id="favorites-list" style="list-style: none; padding: 0;">
+                <li>
+                    <span>Product Name</span>
+                    <button class="unfavorite-btn">Remove</button>
+                </li>
+            </ul>
+        </aside>
+    </main>
+    <script src="js/index.js"></script>
+</body>
+
+</html>
