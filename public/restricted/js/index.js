@@ -29,6 +29,32 @@ document.getElementById("next-btn").onclick = () => {
     }
 }
 
+async function renderFavorite() {
+    const response = await fetch('/api/favorites')
+    const json = await response.json()
+    const favoritesList = document.getElementById('favorites-list');
+    const fragment = document.createDocumentFragment();
+    const template = document.createElement('template');
+
+    json.data.forEach(item => {
+        // 1. Define the HTML as a string
+        const liString = `<li>
+        <span>${item.title}</span>
+        <button class="unfavorite-btn" data-id="${item._id}">Remove</button>
+    </li>`;
+
+        // 2. Convert string to a real DOM node using the template element
+        template.innerHTML = liString.trim();
+        const liNode = template.content.firstChild;
+
+        // 3. Append the node to the fragment
+        fragment.appendChild(liNode);
+    });
+
+    // 4. Batch update the DOM
+    favoritesList.replaceChildren(fragment);
+}
+
 async function initProductFilterList() {
     const response = await fetch('/api/products/filters')
     const json = await response.json()
@@ -90,7 +116,7 @@ function readFilterOptions() {
          type: "type1;type2"
        }
     */
-   return filterObject
+    return filterObject
 }
 
 async function renderPagedProductsWithFilter(page) {
@@ -128,19 +154,20 @@ async function renderPagedProductsWithFilter(page) {
     }
 }
 
-async function renderProductFilterList(filterList) {
+// async function renderProductFilterList(filterList) {
 
-}
+// }
 
-async function updateFilterList() {
+// async function updateFilterList() {
 
-}
+// }
 
-async function fetchNextPage(page) {
+// async function fetchNextPage(page) {
 
-}
+// }
 
 (async () => {
     await initProductFilterList()
     await renderPagedProductsWithFilter(1)
+    await renderFavorite()
 })()

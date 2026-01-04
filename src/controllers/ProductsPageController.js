@@ -8,13 +8,13 @@ const queryValidator = [
   query('sort').optional().isIn(['newest', 'title']).default('newest')
 ]
 
-const getPagedProductsWithFilter = async (req, res) => {
+const getPagedProductsWithFilter = async (req, res, next) => {
 
-  // 1. Check for basic input errors
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ success: false, errors: errors.array() });
-  }
+  // // 1. Check for basic input errors
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(422).json({ success: false, errors: errors.array() });
+  // }
 
   try {
     const { page, brand, type, sort } = req.query;
@@ -95,7 +95,7 @@ const getPagedProductsWithFilter = async (req, res) => {
     });
 
   } catch (err) {
-    res.status(500).json({ success: false, error: 'Internal Server Error' });
+    next(err);
   }
 }
 

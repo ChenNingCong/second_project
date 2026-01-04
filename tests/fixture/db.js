@@ -1,9 +1,10 @@
-import { Product, ProductBrand, ProductType } from "../models/Product.js";
-import { User } from "../models/User.js";
+import { Product, ProductBrand, ProductType } from "../../src/models/Product.js";
+import { User } from "../../src/models/User.js";
 
 function randomSelect(l) {
    return l[Math.floor(Math.random() * l.length)];
 }
+
 export async function createProducts() {
     const type_names = ["Computer", "Keyboard", "Mouse"]
     const brand_names = ["A", "B", "C", "D", "E"]

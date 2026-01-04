@@ -28,7 +28,7 @@ const registerQueryValidator = [
         .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
 ];
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
         const newUser = new User({ username, email, password: password });
@@ -37,7 +37,7 @@ const register = async (req, res) => {
         // Success response
         res.status(201).json({ message: "Success" });
     } catch (err) {
-        res.status(500).json({ error: "Registration failed" });
+        next(err);
     }
 }
 
@@ -46,7 +46,7 @@ const loginQueryValidator = [
   body('password').notEmpty().withMessage('Password is required')
 ];
 
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
@@ -75,7 +75,7 @@ const login = async (req, res) => {
         });
 
     } catch (err) {
-        res.status(500).json({ error: "Login server error" });
+        next(err);
     }
 };
 
