@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Unauthorized Access</title>
+</head>
+
+<body>
+    <div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
+        <h1>🔒 Access Denied</h1>
+        <p>You need to be logged in to view this page.</p>
+        <p>Redirecting you to the login page in <span id="timer">5</span> seconds...</p>
+        <a href="/login">Click here to login immediately</a>
+    </div>
+    <script>
+        let seconds = 5;
+        setInterval(() => {
+            seconds--;
+            document.getElementById('timer').innerText = seconds;
+            if (seconds <= 0) window.location.href = '/login';
+        }, 1000);
+    </script>
+</body>
+
+</html>

@@ -4,6 +4,7 @@ import { validate } from '../middlewares/Validate.js';
 const authRouter = Router();
 
 authRouter.post('/register', AuthController.registerQueryValidator, validate, AuthController.register); 
+authRouter.post('/login', AuthController.loginQueryValidator, validate, AuthController.login); 
 // userRouter.post('/', validateUserName, validatePassword, postCreateUser);
 // userRouter.put('/', validateUserName, validatePassword, putUpdateUser);
 // userRouter.delete('/:id', deleteUserById);

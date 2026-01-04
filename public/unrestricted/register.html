@@ -9,6 +9,7 @@
         form { display: flex; flex-direction: column; width: 300px; gap: 10px; }
         input, button { padding: 10px; }
     </style>
+    <script src="js/error.js"></script>
 </head>
 <body>
 
@@ -45,7 +46,7 @@
                 alert("Registration successful! You can now login.");
                 window.location.href = 'login';
             } else {
-                alert("Error: " + (data.error || data));
+                handleError(data.error || data);
             }
         });
     </script>

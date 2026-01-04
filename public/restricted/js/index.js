@@ -30,7 +30,7 @@ document.getElementById("next-btn").onclick = () => {
 }
 
 async function initProductFilterList() {
-    const response = await fetch('/products/filters')
+    const response = await fetch('/api/products/filters')
     const json = await response.json()
     const data = json.data
     const form = document.getElementById('filter-form');
@@ -95,7 +95,7 @@ function readFilterOptions() {
 
 async function renderPagedProductsWithFilter(page) {
     const params = { ...readFilterOptions(), page: page };
-    const url = new URL('/products', location);
+    const url = new URL('/api/products', location);
     url.search = new URLSearchParams(params);
     try {
         const response = await fetch(url)

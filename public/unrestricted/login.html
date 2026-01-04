@@ -9,6 +9,7 @@
         form { display: flex; flex-direction: column; width: 300px; gap: 10px; }
         input, button { padding: 10px; }
     </style>
+    <script src="js/error.js"></script>
 </head>
 <body>
 
@@ -39,12 +40,14 @@
             });
 
             const data = await response.json();
+            console.log(data)
             if (response.ok) {
                 alert("Login successful!");
                 // Example: localStorage.setItem('userId', data.userId);
                 console.log("User Data:", data);
+                window.location.href = 'products';
             } else {
-                alert("Login failed: " + (data.error || data));
+                handleError(data.error || data);
             }
         });
     </script>
