@@ -4,7 +4,7 @@ import morgan from 'morgan';
 import productsRouter from './routers/ProductsRouter.js';
 import authRouter from './routers/AuthRouter.js';
 import session from 'express-session';
-import { checkAuthenticated, injectFakeSession } from './middlewares/Auth.js';
+import { checkAuthenticated, injectFakeSession, isAuthenticated } from './middlewares/Auth.js';
 import productDetailRouter from './routers/ProductDetailRouter.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -40,10 +40,18 @@ if (USE_AUTH) {
 app.use(express.static('public/unrestricted', {
   extensions: ['html', 'htm']
 }))
+app.get('/', (req, res) => {
+  if (isAuthenticated(req)) {
+    res.redirect('/products'); 
+  } else {
+    res.redirect('/login');
+  }
+});
+app.use('/api', authRouter)
 if (USE_AUTH) {
   app.use(checkAuthenticated)
 }
-app.use('/api', authRouter)
+
 app.use(express.static('public/restricted', {
   extensions: ['html', 'htm']
 }))

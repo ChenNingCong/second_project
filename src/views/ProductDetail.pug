@@ -33,9 +33,23 @@ html
             .gallery-item:hover { transform: translateY(-5px); }
             .gallery-item img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
             .gallery-item p { margin: 10px 0; font-weight: 500; font-size: 0.9rem; }
+            .back-link {
+                display: inline-block;
+                margin: 20px 0 10px 20px;
+                text-decoration: none;
+                color: #666;
+                font-size: 1.5rem;
+                transition: color 0.2s;
+            }
+
+            .back-link:hover {
+                color: #000;
+                text-decoration: underline;
+            }
 
     body
         .product-container
+            a.back-link(href="/products") ← Back to Home
             //- a. Main Product Section
             section.product-main
                 img.main-img(src=product.image_url, alt=product.title)

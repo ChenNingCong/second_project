@@ -49,19 +49,14 @@ const loginQueryValidator = [
 const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-
-        // 1. Find the user
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
-
-        // 2. Check Password (Assuming you used bcrypt to hash during registration)
         const isMatch = password == user.password;
         if (!isMatch) {
             return res.status(401).json({ error: "Invalid credentials" });
         }
-
         // 3. Set Session Data
         req.session.userId = user._id;
         req.session.username = user.username;

@@ -1,7 +1,9 @@
 import { User } from "../models/User.js";
-
+export const isAuthenticated = (req) => {
+    return req.session && req.session.userId
+}
 export const checkAuthenticated = (req, res, next) => {
-    if (req.session && req.session.userId) {
+    if (isAuthenticated(req)) {
         return next();
     }
     res.redirect(`/unauthorized`);
