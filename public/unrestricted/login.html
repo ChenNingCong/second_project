@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; padding-top: 50px; }
+        form { display: flex; flex-direction: column; width: 300px; gap: 10px; }
+        input, button { padding: 10px; }
+    </style>
+</head>
+<body>
+
+    <div>
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p>Need an account? <a href="register">Register here</a></p>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const payload = {
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert("Login successful!");
+                // Example: localStorage.setItem('userId', data.userId);
+                console.log("User Data:", data);
+            } else {
+                alert("Login failed: " + (data.error || data));
+            }
+        });
+    </script>
+</body>
+</html>
