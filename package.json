@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node --env-file=.test_env --watch-path=./src src/index.js",
-    "production" : "node --env-file=.production_env --watch-path=./src src/index.js",
+    "production" : "node --env-file=.production_env  --env-file=secret/.db --watch-path=./src src/index.js",
     "test": "vitest",
     "test:ui": "vitest --ui"
   },

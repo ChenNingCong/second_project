@@ -30,21 +30,20 @@ document.getElementById("next-btn").onclick = () => {
 }
 
 
-async function toggleFavorite(event) {
-    const element = event.target
-    console.log(element)
-    const productId = element["data-id"]
+async function toggleFavorite(element) {
+    const productId = element.dataset.id
+    console.log(productId)
     let favorited = element.classList.contains("favorite");
     try {
         const response = await fetch(`/api/favorites/${productId}`, { method: favorited ? 'DELETE' : 'POST' });
         const data = await response.json();
-
         if (data.success) {
             element.classList.toggle('favorite');
-
+        } else {
+            throw new Error(data.error)
         }
     } catch (err) {
-        alert("Something went wrong updating your favorites.");
+        alert(`Something went wrong updating your favorites.${err}`);
     }
 }
 
@@ -58,7 +57,7 @@ async function renderFavorite() {
     json.data.forEach(item => {
         // 1. Define the HTML as a string
         const liString = `<li>
-        <div class="like-fill favorite" data-id="${item._id}">
+        <div class="like-fill favorite" data-id="${item._id}" onclick="toggleFavorite(this)">
             <i class="fa-solid fa-heart"></i>
         </div>
         <a href="/products/details/${item._id}">
@@ -69,14 +68,12 @@ async function renderFavorite() {
         // 2. Convert string to a real DOM node using the template element
         template.innerHTML = liString.trim();
         const liNode = template.content.firstChild;
-
         // 3. Append the node to the fragment
         fragment.appendChild(liNode);
     });
 
     // 4. Batch update the DOM
     favoritesList.replaceChildren(fragment);
-    favoritesList.onclick = toggleFavorite
 }
 
 async function initProductFilterList() {
@@ -172,18 +169,6 @@ async function renderPagedProductsWithFilter(page) {
         setPagination()
     }
 }
-
-// async function renderProductFilterList(filterList) {
-
-// }
-
-// async function updateFilterList() {
-
-// }
-
-// async function fetchNextPage(page) {
-
-// }
 
 (async () => {
     await initProductFilterList()
