@@ -9,6 +9,7 @@ import productDetailRouter from './routers/ProductDetailRouter.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import favoriteRouter from './routers/FavoriteRouter.js';
+import { fail } from './utils/error.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -62,6 +63,13 @@ app.use('/api/favorites', favoriteRouter);
 
 app.all('*', (_req, res) => {
   return res.status(404).json({ message: 'Not Found' });
+});
+
+app.use((err, req, res, next) => {
+    if (err.isOperational) {
+        fail(res, err.code, err.message)
+    }
+    next(err)
 });
 
 export default app;

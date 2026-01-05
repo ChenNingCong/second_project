@@ -24,38 +24,34 @@ describe('Authentication & Protected Content Integration', () => {
                 .send({ username: '', email: 'not-an-email', password: '123' });
 
             expect(res.statusCode).toBe(422);
-
-            // Vitest uses the same 'expect' syntax as Jest
-            // expect(res.body.errors).toEqual(
-            //     expect.arrayContaining([
-            //         expect.objectContaining({ msg: 'Username is required' }),
-            //         expect.objectContaining({ msg: 'Please provide a valid email' }),
-            //         expect.objectContaining({ msg: 'Password must be at least 6 characters long' })
-            //     ])
-            // );
+            expect(res.body.error).toContain('username')
+            expect(res.body.error).toContain('email')
+            expect(res.body.error).toContain('password')
         });
 
         it('should register a user and block duplicate emails', async () => {
-            await request(app).post('/api/register').send(validUser);
+            let res = await request(app).post('/api/register').send(validUser);
+            expect(res.statusCode).toBe(201);
+        });
 
+        it('should register a user and block duplicate emails', async () => {
             const res = await request(app).post('/api/register').send(validUser);
 
             expect(res.statusCode).toBe(422);
-            // expect(res.body.errors[0].msg).toBe('E-mail already in use');
+            expect(res.body.error).toContain('username')
+            expect(res.body.error).toContain('email')
         });
     });
 
     describe('Login & Access Control', () => {
         it('should block unauthorized access to the products list', async () => {
             const res = await request(app).get('/api/products');
-            console.log(res)
+            // generate a redirection request if it's unauthorized access
             expect(res.statusCode).toBe(302);
-            // expect(res.body.error).toBe('Unauthorized');
         });
 
         it('should allow access to products after a successful login', async () => {
-            // Mocking or Creating user
-            // await User.create(validUser);
+            // we didn't reset the database here
             const agent = request.agent(app);
 
             const loginRes = await agent
@@ -63,11 +59,13 @@ describe('Authentication & Protected Content Integration', () => {
                 .send({ email: validUser.email, password: validUser.password });
 
             expect(loginRes.statusCode).toBe(200);
-            expect(loginRes.body.message).toBe('Login successful');
+            expect(loginRes.body.data.message).toBe('Login successful');
 
             const productRes = await agent.get('/api/products');
 
             expect(productRes.statusCode).toBe(200);
+            const data = productRes.body.data
+            console.log(productRes.body)
             // expect(Array.isArray(productRes.body)).toBe(true);
             // console.log(productRes.body)
             // expect(productRes.body).toContain('Computer');

@@ -9,13 +9,6 @@ const queryValidator = [
 ]
 
 const getPagedProductsWithFilter = async (req, res, next) => {
-
-  // // 1. Check for basic input errors
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(422).json({ success: false, errors: errors.array() });
-  // }
-
   try {
     const { page, brand, type, sort } = req.query;
     const limit = 9;

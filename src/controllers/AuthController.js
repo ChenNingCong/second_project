@@ -1,8 +1,8 @@
 import { body } from "express-validator";
 import { User } from "../models/User.js";
+import { succeed, ValidationError } from "../utils/error.js";
 
 const registerQueryValidator = [
-    // Username check
     body('username')
         .trim()
         .notEmpty().withMessage('Username is required')
@@ -12,8 +12,6 @@ const registerQueryValidator = [
                 throw new Error('Username already in use');
             }
         }),
-
-    // Email check
     body('email')
         .isEmail().withMessage('Please provide a valid email')
         .normalizeEmail()
@@ -33,17 +31,15 @@ const register = async (req, res, next) => {
         const { username, email, password } = req.body;
         const newUser = new User({ username, email, password: password });
         await newUser.save();
-
-        // Success response
-        res.status(201).json({ message: "Success" });
+        succeed(res, 201, { message: "Register success" })
     } catch (err) {
         next(err);
     }
 }
 
 const loginQueryValidator = [
-  body('email').isEmail().withMessage('Enter a valid email').normalizeEmail(),
-  body('password').notEmpty().withMessage('Password is required')
+    body('email').isEmail().withMessage('Enter a valid email').normalizeEmail(),
+    body('password').notEmpty().withMessage('Password is required')
 ];
 
 const login = async (req, res, next) => {
@@ -51,23 +47,19 @@ const login = async (req, res, next) => {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(401).json({ error: "Invalid credentials" });
+            throw new ValidationError("Invalid credentials");
         }
         const isMatch = password == user.password;
         if (!isMatch) {
-            return res.status(401).json({ error: "Invalid credentials" });
+            throw new ValidationError("Invalid credentials");
         }
-        // 3. Set Session Data
         req.session.userId = user._id;
         req.session.username = user.username;
 
-        // 4. Redirect
-        // For API/AJAX requests, you might send a URL; 
-        // For standard form submissions, use res.redirect
-        res.status(200).json({ 
-            message: "Login successful", 
-            redirectTo: "/products" 
-        });
+        succeed(res, 200, {
+            message: "Login successful",
+            redirectTo: "/products"
+        })
 
     } catch (err) {
         next(err);
@@ -75,4 +67,4 @@ const login = async (req, res, next) => {
 };
 
 
-export { register, registerQueryValidator, login, loginQueryValidator,  }
+export { register, registerQueryValidator, login, loginQueryValidator, }
