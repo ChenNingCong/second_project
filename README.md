@@ -17,4 +17,5 @@ Demonstration State
 5. Product Detail page
    1. Show description and the gallery
    2. Check favorite button
+   3. Test non-existent product id and invalid product id 5f92cbf10cf217478ba93561
 6. Go back to Products Page - Check Filter list

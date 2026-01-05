@@ -2,7 +2,12 @@ import mongoose from "mongoose";
 import { Product } from "../models/Product.js";
 import { User } from "../models/User.js";
 import { NotFoundError } from "../utils/error.js";
-
+import { param } from "express-validator";
+export const queryValidator = [
+    param('productId')
+        .isMongoId()
+        .withMessage('Invalid Product ID format')
+];
 export const getProductDetail = async (req, res, next) => {
     try {
         const productId = req.params.productId;
