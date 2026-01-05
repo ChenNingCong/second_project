@@ -24,8 +24,15 @@ function createApp() {
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(morgan('dev'));
-
+  app.use((req, res, next) => {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.set('Pragma', 'no-cache');
+    res.set('Expires', '0');
+    res.set('Surrogate-Control', 'no-store');
+    next();
+  });
   const USE_AUTH = process.env.USE_AUTH != 'false'
+  console.log(USE_AUTH)
   if (USE_AUTH) {
     app.use(session({
       secret: 'your_secret_key', // Keep this private

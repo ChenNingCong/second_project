@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Gallery</title>
     <link rel="stylesheet" href="css/index.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
@@ -23,7 +23,9 @@
                 </div>
             </template>
             <template id="filter-form-template-option">
-                <label><input type="checkbox" name="brand" value="brand2"></label>
+                <label>
+                    <input type="checkbox" name="brand" value="brand2">
+                </label>
             </template>
             <form id="filter-form">
                 <button type="button" id="apply-filters">Filter</button>
@@ -39,7 +41,6 @@
                     <article class="product-card">
                         <img src="https://via.placeholder.com/150" alt="Product">
                         <h4>Product Title</h4>
-                        <button>Favorite</button>
                     </article>
                 </a>
             </template>
@@ -58,10 +59,6 @@
         <aside class="favorites-sidebar">
             <h3>My Favorites</h3>
             <ul id="favorites-list" style="list-style: none; padding: 0;">
-                <li>
-                    <span>Product Name</span>
-                    <button class="unfavorite-btn">Remove</button>
-                </li>
             </ul>
         </aside>
     </main>

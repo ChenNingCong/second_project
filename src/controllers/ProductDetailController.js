@@ -8,7 +8,7 @@ export const getProductDetail = async (req, res, next) => {
         const productId = req.params.productId;
         const userId = req.session.userId;
 
-        const product = await Product.findById(productId).populate('brand');
+        const product = await Product.findById(productId).populate('brand type');
         if (!product) {
             throw new NotFoundError(`Product ${productId} not found`)
         }

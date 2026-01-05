@@ -3,7 +3,6 @@
      font-family: sans-serif;
      margin: 0;
      display: flex;
-     font-size: 1.5rem;
      flex-direction: column;
      min-height: 100vh;
  }
@@ -15,8 +14,8 @@
 
  /* Section 1: Filters (Left) */
  .filter-panel {
-     width: 200px;
-     padding: 20px;
+     width: 10%;
+     padding: 1em;
      border-right: 1px solid #ddd;
  }
 
@@ -45,7 +44,7 @@
 
  .product-card {
      border: 1px solid #ccc;
-     padding: 10px;
+     padding: 1em;
      text-align: center;
      transition: transform 0.3s ease, box-shadow 0.3s ease;
      cursor: pointer;
@@ -60,12 +59,62 @@
      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
  }
 
+ #favorites-list li {
+     border: 1px solid #ccc;
+     padding: 1em;
+     display: flex;
+     flex-direction: row;
+     align-items: center ;
+ }
+
+ .like-fill {
+    display: inline;
+     font-size: 1.5em;
+     margin: 0 0.5em 0 0;
+     background: linear-gradient(to top, #ff2e63 50%, #ccc 50%);
+     background-size: 100% 200%;
+     background-position: top;
+     -webkit-background-clip: text;
+     -webkit-text-fill-color: transparent;
+     transition: background-position 0.4s ease;
+ }
+ .like-fill:hover {
+    background-position: bottom;
+    cursor: pointer;
+ }
+ .like-fill.favorite {
+    background-position: bottom;
+ }
+
+ .like-fill.favorite:hover {
+    background-position: top;
+    cursor: pointer;
+ }
+
+
+ a {
+     text-decoration: none;
+     /* Removes the underline */
+     color: #000000;
+     /* Sets the link color (e.g., black) */
+ }
+
+ a:link,
+ a:visited,
+ a:hover,
+ a:active {
+     text-decoration: none;
+     color: #000000;
+     /* Sets the link color for all states */
+ }
+
  /* Section 3: Favorites (Right) */
  .favorites-sidebar {
-     width: 250px;
+     width: 20%;
      padding: 20px;
      border-left: 1px solid #ddd;
  }
+
 
  /* UI Elements */
  .pagination {

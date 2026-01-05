@@ -29,6 +29,25 @@ document.getElementById("next-btn").onclick = () => {
     }
 }
 
+
+async function toggleFavorite(event) {
+    const element = event.target
+    console.log(element)
+    const productId = element["data-id"]
+    let favorited = element.classList.contains("favorite");
+    try {
+        const response = await fetch(`/api/favorites/${productId}`, { method: favorited ? 'DELETE' : 'POST' });
+        const data = await response.json();
+
+        if (data.success) {
+            element.classList.toggle('favorite');
+
+        }
+    } catch (err) {
+        alert("Something went wrong updating your favorites.");
+    }
+}
+
 async function renderFavorite() {
     const response = await fetch('/api/favorites')
     const json = await response.json()
@@ -39,8 +58,12 @@ async function renderFavorite() {
     json.data.forEach(item => {
         // 1. Define the HTML as a string
         const liString = `<li>
-        <span>${item.title}</span>
-        <button class="unfavorite-btn" data-id="${item._id}">Remove</button>
+        <div class="like-fill favorite" data-id="${item._id}">
+            <i class="fa-solid fa-heart"></i>
+        </div>
+        <a href="/products/details/${item._id}">
+            <span>${item.title}</span>
+        </a>
     </li>`;
 
         // 2. Convert string to a real DOM node using the template element
@@ -53,6 +76,7 @@ async function renderFavorite() {
 
     // 4. Batch update the DOM
     favoritesList.replaceChildren(fragment);
+    favoritesList.onclick = toggleFavorite
 }
 
 async function initProductFilterList() {

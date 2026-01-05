@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { addFavorite, getFavoriteList, removeFavorite } from '../controllers/FavoriteController.js';
+import { addFavorite, getFavoriteList, queryValidator, removeFavorite } from '../controllers/FavoriteController.js';
+import { validate } from '../middlewares/Validate.js';
 const favoriteRouter = Router();
 
 favoriteRouter.get('/', getFavoriteList)
-favoriteRouter.post('/:productId', addFavorite); 
-favoriteRouter.delete('/:productId', removeFavorite)
+favoriteRouter.post('/:productId', queryValidator, validate, addFavorite); 
+favoriteRouter.delete('/:productId', queryValidator, validate, removeFavorite)
 
 export default favoriteRouter;

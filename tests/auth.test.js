@@ -10,7 +10,7 @@ const db = await createDB(process.env);
 const app = createApp();
 afterAll(async ()=>{await db.disconnect()})
 
-describe('Authentication & Protected Content Integration', () => {
+describe('Authentication & Protected Content', () => {
     const validUser = {
         username: 'testcoder',
         email: 'test@example.com',

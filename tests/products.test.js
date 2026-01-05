@@ -10,7 +10,7 @@ const db = await createDB(process.env);
 const app = createApp();
 afterAll(async () => { await db.disconnect() })
 
-describe('Product Controller - Supertest Integration', async () => {
+describe('Product Controller', async () => {
     const brandRecord = await ProductBrand.findOne();
     const typeRecord = await ProductType.findOne();
 

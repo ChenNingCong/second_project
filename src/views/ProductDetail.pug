@@ -10,7 +10,7 @@ html
             .product-main { display: flex; gap: 40px; margin-bottom: 50px; align-items: flex-start; }
             .main-img { width: 450px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
             .product-info { flex: 1; }
-            .brand-badge { color: #666; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
+            .brand-badge { color: #666; letter-spacing: 1px; font-size: 0.9rem; }
 
             /* Favorite Button */
             #fav-btn { 
@@ -55,15 +55,16 @@ html
                 img.main-img(src=product.image_url, alt=product.title)
 
                 div.product-info
-                    p.brand-badge= product.brand.name
                     h1= product.title
-                    p.description= product.description
+                    p.brand-badge= `Brand: ${product.brand.name}`
+                    p.brand-badge= `Type: ${product.type.name}`
 
                     //- c. Favorite Button
                     button#fav-btn(class=isFavorited ? 'active' : '' onclick=`toggleFavorite('${product._id}')`)
                         span= isFavorited ? '❤️' : '🤍'
                         span= isFavorited ? 'Saved to Favorites' : 'Add to Favorites'
 
+            p.description= `Description: ${product.description}`
             //- b. Brand Gallery
             section.gallery-section
                 h2 More from #{product.brand.name}
