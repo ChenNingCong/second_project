@@ -21,7 +21,6 @@ if (POPULATE_TEST_DATA || INIT_ONLY) {
 if (!INIT_ONLY) {
     const app = createApp()
     app.listen(EXPRESS_PORT, () => {
-        console.log("done")
         console.log(`API server running on http://localhost:${EXPRESS_PORT}`);
     });
 } else {

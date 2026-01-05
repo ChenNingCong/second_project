@@ -32,7 +32,6 @@ function createApp() {
     next();
   });
   const USE_AUTH = process.env.USE_AUTH != 'false'
-  console.log(USE_AUTH)
   if (USE_AUTH) {
     app.use(session({
       secret: 'your_secret_key', // Keep this private

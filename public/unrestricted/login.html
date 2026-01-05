@@ -43,8 +43,6 @@
             console.log(data)
             if (response.ok) {
                 alert("Login successful!");
-                // Example: localStorage.setItem('userId', data.userId);
-                console.log("User Data:", data);
                 window.location.href = 'products';
             } else {
                 handleError(data.error || data);
