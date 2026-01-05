@@ -110,12 +110,6 @@ function readFilterOptions() {
     }
 
     console.log(filterObject);
-    /* Resulting Object:
-       {
-         brand: "brand1;brand2",
-         type: "type1;type2"
-       }
-    */
     return filterObject
 }
 
@@ -131,8 +125,9 @@ async function renderPagedProductsWithFilter(page) {
         }
         const json = await response.json()
         const data = json.data
-        pagination = json.pagination
-        if (data.length == 0) {
+        pagination = data.pagination
+        const products = data.products
+        if (products.length == 0) {
             productGrid.classList.add("hidden")
             noProductGrid.classList.remove("hidden")
         } else {
@@ -140,7 +135,7 @@ async function renderPagedProductsWithFilter(page) {
             noProductGrid.classList.add("hidden")
             const fragment = document.createDocumentFragment()
             const template = document.getElementById("product-grid-item-template")
-            for (const item of data) {
+            for (const item of products) {
                 const node = template.content.cloneNode(true);
                 node.querySelector('h4').textContent = item.title;
                 node.querySelector('img').src = item.image_url;

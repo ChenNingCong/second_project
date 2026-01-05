@@ -1,27 +1,16 @@
 import { body } from "express-validator";
 import { User } from "../models/User.js";
-import { succeed, ValidationError } from "../utils/error.js";
+import { ConflictError, succeed, ValidationError } from "../utils/error.js";
 
 const registerQueryValidator = [
     body('username')
         .trim()
         .notEmpty().withMessage('Username is required')
-        .custom(async (value) => {
-            const user = await User.findOne({ username: value });
-            if (user) {
-                throw new Error('Username already in use');
-            }
-        }),
+    ,
     body('email')
         .isEmail().withMessage('Please provide a valid email')
         .normalizeEmail()
-        .custom(async (value) => {
-            const user = await User.findOne({ email: value });
-            if (user) {
-                throw new Error('E-mail already in use');
-            }
-        }),
-
+    ,
     body('password')
         .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
 ];
@@ -29,6 +18,16 @@ const registerQueryValidator = [
 const register = async (req, res, next) => {
     try {
         const { username, email, password } = req.body;
+        const messages = []
+        if (await User.findOne({ username: username })) {
+            messages.push('username already in use')
+        }
+        if (await User.findOne({ email: email })) {
+            messages.push('email already in use')
+        }
+        if (messages.length > 0) {
+            throw new ConflictError(messages.join('\n'));
+        }
         const newUser = new User({ username, email, password: password });
         await newUser.save();
         succeed(res, 201, { message: "Register success" })

@@ -58,6 +58,14 @@ export class NotFoundError extends AppError {
     }
 }
 
+// 409 - Conflict
+export class ConflictError extends AppError {
+    constructor(message = "Conflict") {
+        super(409, message);
+    }
+}
+
+
 // 422 - Unprocessable Entity
 export class ValidationError extends AppError {
     constructor(message = "Validation Failed") {

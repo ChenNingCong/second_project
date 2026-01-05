@@ -1,0 +1,30 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    title Error #{errorCode}
+  body
+    div(style="text-align: center; margin-top: 50px; font-family: sans-serif;")
+      h1 ⚠️ Error #{errorCode}
+      p #{message}
+      
+      p
+        | Redirecting you in 
+        span#timer 5
+        |  seconds...
+      
+      a(href=redirectTo) Click here to proceed immediately
+
+    script.
+      const destination = "!{redirectTo}";
+      let seconds = 5;
+      const timerElement = document.getElementById('timer');
+      
+      const countdown = setInterval(() => {
+        seconds--;
+        timerElement.innerText = seconds;
+        if (seconds <= 0) {
+          clearInterval(countdown);
+          window.location.href = destination;
+        }
+      }, 1000);

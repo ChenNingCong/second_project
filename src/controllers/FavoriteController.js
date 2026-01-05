@@ -1,5 +1,6 @@
 import { Product } from "../models/Product.js";
 import { User } from "../models/User.js";
+import { succeed, ValidationError } from "../utils/error.js";
 
 
 // 1. Add to Favorites
@@ -8,29 +9,17 @@ export const addFavorite = async (req, res, next) => {
     const userId = req.session.userId;
     try {
         const user = await User.findById(userId);
-        
-        // 422: The request is well-formed, but the item is already there
-        console.log(user)
         if (user.favorites.includes(productId)) {
-            return res.status(422).json({ 
-                error: "Unprocessable Content",
-                message: `Item ${productId} is already in your favorites list.`
-            });
+            throw new ValidationError(`Item ${productId} is already in your favorites list.`)
         }
         // 2. Verify product exists in the database
         const productExists = await Product.exists({ _id: productId });
         if (!productExists) {
-            return res.status(404).json({ 
-                error: "Not Found", 
-                message: `The product you are trying to favorite ${productId} does not exist.` 
-            });
+            throw new ValidationError(`The product you are trying to favorite ${productId} does not exist.` )
         }
-
-
         user.favorites.push(productId);
         await user.save();
-        
-        res.status(200).json({ success: true, message: "Added to favorites" });
+        succeed(res, 200, {message: "Added to favorites"})
     } catch (err) {
         next(err);
     }

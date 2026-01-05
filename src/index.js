@@ -1,7 +1,8 @@
 
+import createApp from './app.js';
 import app from './app.js';
 import { DBServer, InMemoryDB, MongoDBAtlasDBServer } from './config/dbserver.js';
-
+const app = createApp()
 const EXPRESS_PORT = process.env.EXPRESS_PORT || 3000;
 
 const { DATABASE, DATABASE_PASSWORD } = process.env;
